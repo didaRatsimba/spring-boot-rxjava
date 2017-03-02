@@ -1,7 +1,8 @@
 package com.ojacquemart.reactive.github.service;
 
-import com.ojacquemart.reactive.github.domain.Repository;
 import com.ojacquemart.reactive.github.domain.RawUser;
+import com.ojacquemart.reactive.github.domain.Repository;
+import io.reactivex.Observable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,6 +41,10 @@ public class RestClient {
         log.info("Get repos {}", login);
 
         return restTemplate.getForObject(format(API_GITHUB_REPOS, login), Repository[].class);
+    }
+
+    public Observable<RawUser> wawawa() {
+        return null;
     }
 
 }

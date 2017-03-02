@@ -3,11 +3,11 @@ package com.ojacquemart.reactive.github.service;
 import com.ojacquemart.reactive.github.domain.GithubUser;
 import com.ojacquemart.reactive.github.domain.RawUser;
 import com.ojacquemart.reactive.github.domain.Repository;
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import rx.Observable;
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
 
 import java.util.Arrays;
 
@@ -38,11 +38,11 @@ public class GithubService {
             return new GithubUser(rawUser, Arrays.asList(followers), Arrays.asList(repositories));
         });
 
-        return fullUser.toBlocking().first();
+        return fullUser.blockingFirst();
     }
 
     private Observable<RawUser> getRawUserObservable(String login) {
-        return Observable.create((Subscriber<? super RawUser> s) -> s.onNext(restClient.getUser(login)))
+        return Observable.create((ObservableOnSubscribe<? super RawUser> s) -> s.subscribe(restClient.wawawa()))
                 .onErrorReturn(throwable -> {
                     log.error("Failed to retrieve user {}", login, throwable);
 
