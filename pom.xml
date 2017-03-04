@@ -22,7 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 
-		<rxjava.version>2.0.6</rxjava.version>
+		<rxjava2.version>2.0.6</rxjava2.version>
         <lombok.version>1.16.6</lombok.version>
 
         <assertj-core.version>3.2.0</assertj-core.version>
@@ -41,14 +41,14 @@
 		<!--<dependency>
             <groupId>io.reactivex</groupId>
             <artifactId>rxjava</artifactId>
-            <version>${rxjava.version}</version>
+            <version>${rxjava2.version}</version>
         </dependency>-->
 
 		<!-- https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava -->
 		<dependency>
 			<groupId>io.reactivex.rxjava2</groupId>
 			<artifactId>rxjava</artifactId>
-			<version>${rxjava.version}</version>
+			<version>${rxjava2.version}</version>
 		</dependency>
 
 

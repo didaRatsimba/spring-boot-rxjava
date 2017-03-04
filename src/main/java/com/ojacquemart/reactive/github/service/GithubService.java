@@ -4,7 +4,6 @@ import com.ojacquemart.reactive.github.domain.GithubUser;
 import com.ojacquemart.reactive.github.domain.RawUser;
 import com.ojacquemart.reactive.github.domain.Repository;
 import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,33 +41,42 @@ public class GithubService {
     }
 
     private Observable<RawUser> getRawUserObservable(String login) {
-        return Observable.create((ObservableOnSubscribe<? super RawUser> s) -> s.subscribe(restClient.wawawa()))
+        return Observable.<RawUser>create(s ->
+                s.onNext(restClient.getUser(login))
+        )
+                .subscribeOn(Schedulers.computation())
                 .onErrorReturn(throwable -> {
                     log.error("Failed to retrieve user {}", login, throwable);
 
                     return new RawUser("???", null, null);
                 })
-                .subscribeOn(Schedulers.computation());
+                ;
     }
 
     private Observable<RawUser[]> getFollowersObservable(String login) {
-        return Observable.create((Subscriber<? super RawUser[]> s) -> s.onNext(restClient.getFollowers(login)))
+        return Observable.<RawUser[]>create(s ->
+                s.onNext(restClient.getFollowers(login))
+        )
                 .onErrorReturn(throwable -> {
                     log.error("Failed to retrieve {} followers", login, throwable);
 
                     return new RawUser[]{};
                 })
-                .subscribeOn(Schedulers.computation());
+                .subscribeOn(Schedulers.computation())
+                ;
     }
 
     private Observable<Repository[]> getReposObservable(String login) {
-        return Observable.create((Subscriber<? super Repository[]> s) -> s.onNext(restClient.getRepositories(login)))
+        return Observable.<Repository[]>create(s ->
+                s.onNext(restClient.getRepositories(login))
+        )
                 .onErrorReturn(throwable -> {
-                    log.error("Failed to retrieve {} repos", login, throwable);
+                    log.error("Failed to retrieve {} repositories", login, throwable);
 
                     return new Repository[]{};
                 })
-                .subscribeOn(Schedulers.computation());
+                .subscribeOn(Schedulers.computation())
+                ;
     }
 
 }
